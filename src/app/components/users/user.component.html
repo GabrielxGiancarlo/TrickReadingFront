@@ -1,0 +1,119 @@
+<body class="profile-page sidebar-collapse">
+
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('../assets/libs/bootstrap/img/books.jpg');"></div>
+    <div class="main main-raised">
+        <div class="profile-content">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h4 class="card-title">AGREGAR ALUMNOS</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>Llenar el siguiente formulario:</p>
+                </div>
+                <div class="container">
+                    <form (ngSubmit)="guardar()" #forma="ngForm" class="form-horizontal">
+                        <div class="form-row">
+                            <div class=" form-group col-md-6">
+                                <label class="bmd-label-floating" for="name">Nombres</label>
+                                <input [(ngModel)]='user.nombres' type="text" class="form-control" id="name" name="nombres">
+                            </div>
+                            <div class=" form-group col-md-6">
+                                <label class="bmd-label-floating" for="name">Apellidos</label>
+                                <input [(ngModel)]="user.apellidos" type="text" class="form-control" name="apellidos" id="name">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="form-group col-md-3 ml-auto">
+                                <label class="bmd-label-floating" for="inputdni">DNI</label>
+                                <input [(ngModel)]="user.dni" name="dni" type="text" class="form-control" id="inputdni">
+                            </div>
+                            <div class="form-group col-md-3 ml-auto">
+                                <label class="bmd-label-floating" for="inputCod">Codigo</label>
+                                <input [(ngModel)]="user.codigo" name="codigo" type="text" class="form-control" id="inputCod">
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label class="bmd-label-floating" for="inputEdad">Edad</label>
+                                <input [(ngModel)]="user.edad" name="edad" type="number" class="form-control" id="inputEdad">
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label for="inputSex">Sexo</label>
+                                <select [(ngModel)]="user.sexo" name="sexo" id="inputSex" class="form-control">
+                                    <option value=true>F</option>
+                                    <option value=false>M</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 ml-auto">
+                                <label class="bmd-label-floating" for="tipo">Tipo Usuario</label>
+                                <select [(ngModel)]="user.tipoUsuarioId" name="tipo" id="tipo" class="form-control">
+                                    <option [value] = "tipo.id" *ngFor="let tipo of tipos" value=true>{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="bmd-label-floating" for="inputEmail1">Correo Institucional</label>
+                                <input [(ngModel)]="user.correoInstitucional" name="correoInstitucional" type="email" class="form-control" id="inputEmail1">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="bmd-label-floating" for="inputEmail2">Correo Personal</label>
+                                <input [(ngModel)]="user.correoPersonal" name="correoPersonal" type="email" class="form-control" id="inputEmail2">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label class="bmd-label-floating" for="inputEid">Escuela</label>
+                                <input [(ngModel)]="user.escuelaId" name="escuelaId" type="text" class="form-control" id="inputEid">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label class="bmd-label-floating" for="inputTel">Telefono</label>
+                                <input [(ngModel)]="user.telefonoCasa" name="user.telefonoCasa" type="text" class="form-control" id="inputTel">
+                            </div>
+                            <div class="form-group col-md-5 ml-auto">
+                                <label class="bmd-label-floating" for="inputCel">Celular</label>
+                                <input [(ngModel)]="user.telefonoMovil" name="telefonoMovil" type="text" class="form-control" id="inputCel">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="bmd-label-floating" for="address">Dirección</label>
+                            <input [(ngModel)]="user.direccion" name="direccion" type="address" class="form-control" id="address" placeholder="Direccion...">
+                        </div>
+                        <div class="form-group" routerLinkActive="active">
+                            <button type="button" class="btn btn-danger" [routerLink]="['/users']">
+                                Cancelar
+                            </button>
+                            <!-- Button trigger modal -->
+                            <button type="button" [disabled]="!forma.valid" class="btn btn-success" type="submit" rel="tooltip" title="Eliminar" data-toggle="modal" data-target="#exampleModal">
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">CREACIÓN DE USUARIO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancelar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                </div>
+                <div class="modal-body">
+                    USUARIO CREADO CON ÉXITO!!
+                </div>
+                <div class="modal-footer">
+                    <button [routerLink]="['/users']" type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

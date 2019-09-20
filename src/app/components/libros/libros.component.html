@@ -1,0 +1,175 @@
+<body class="profile-page sidebar-collapse">
+
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('../assets/libs/bootstrap/img/book.jpg');"></div>
+    <div class="main main-raised">
+        <div class="profile-content">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg bg-dark">
+                    <div class="container">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/users']">Alumnos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/libros']">Libros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/editoriales']">Editoriales</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/autores']">Autores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/administrador/prestamos']">Préstamos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [routerLink]="['/administrador/estadisticas']">Estadísticas</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" name="button" [routerLink]="['/libro','nuevo']" class="btn btn-success">
+                                Nuevo Libro
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="panel panel-success">
+                        <div class="panel-body">
+                            <div class="col col-md-12" style="text-align: center; margin-top: 40px;">
+                                    <h1 style="font-family: 'Nagita', serif; font-size:80px;">Búsqueda de Libros</h1>
+                            </div>
+                            <div class="col col-md-12" style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
+                                <input type="search" name="filterName" placeholder="Busca tu Libro" class="Buscador"  [(ngModel)]="filterName"  (keyup)="tecla($event)" />
+                                <button type="submit" class="btn btn-primary mb-2" (click)="filtro(1)"><i class="material-icons">search</i></button>
+                            </div>
+                            <br>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="success">                                        
+                                        <th>CLASIFICACIÓN</th>
+                                        <th>TÍTULO</th>
+                                        <th>AUTORES</th>
+                                        <th>EDITORIALES</th>
+                                        <th>ACCIÓN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let li of libros">
+                                        <td>{{li.libro.clasificacion}}</td>
+                                        <td>{{li.libro.titulo}}</td>
+                                        <td >
+                                            <div *ngFor="let autor of li.autores">
+                                                {{autor.autores[0].nombre}} 
+                                            </div>
+                                        </td>
+                                        <td >
+                                            <div *ngFor="let editorial of li.editoriales">
+                                                {{editorial.editoriales[0].nombre}} 
+                                            </div>
+                                        </td>
+                                        <td class="td-actions text-right">
+                                            <div class='row'>
+                                                <div class="col-md-12" style="text-align: center;">
+                                                    <button type="button" rel="tooltip" title="Ver Libro" (click)="mostrarLibro(li.libro.libroId)" class="btn btn-info btn-simple btn-xs">
+                                                        <i class="fa fa-book"></i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Editar Libro" (click)="editarLibro(li.libro.libroId)" class="btn btn-success btn-simple btn-xs">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-12" style="text-align: center;">
+                                                    <button type="button" class="btn btn-warning btn-simple btn-xs" (click)="mostrarTemas(li.libro.libroId)" type="button" rel="tooltip" title="Temas">
+                                                        <i class="fa fa-bookmark"></i>
+                                                    </button>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-danger btn-simple btn-xs" type="button" rel="tooltip" title="Eliminar" data-toggle="modal" data-target="#exampleModal" (click)="modalBoton(li.libro)">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <nav aria-label="Page navigation example" *ngIf="libros.length!=0">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" *ngIf="pagina!=1">
+                                <a class="page-link" (click)="filtro(pagina-1)">Anterior</a>
+                                </li>
+                                <span *ngFor="let i of rango" >
+                                    <span *ngIf="pagina==i && i>3 && i<rango.length-2">
+                                        <span class="pagination justify-content-center" *ngIf="pagina==i && i==4 && i==rango.length-3">
+                                            <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                        </span>
+                                        <span class="pagination justify-content-center" *ngIf="pagina==i && i==4 && i!=rango.length-3">
+                                            <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                            <li  class="page-item"><a class="page-link" >...</a></li>
+                                        </span>
+                                        <span class="pagination justify-content-center" *ngIf="pagina==i && i!=4 && i==rango.length-3">
+                                            <li  class="page-item"><a class="page-link" >...</a></li>
+                                            <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                        </span>
+                                        <span class="pagination justify-content-center" *ngIf="pagina==i && i!=4 && i!=rango.length-3">
+                                            <li  class="page-item"><a class="page-link" >...</a></li>
+                                            <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                            <li  class="page-item"><a class="page-link" >...</a></li>
+                                        </span>
+                                    </span>
+                                    <span *ngIf="i<=3 || i>=rango.length-2">
+                                        <span class="pagination justify-content-center" *ngIf="i==3 && i!=rango.length-3">
+                                                <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                                <li *ngIf="pagina!=i" class="page-item"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                                <li class="page-item" *ngIf="pagina<=3 || pagina>=rango.length-2"><a class="page-link">..</a></li>
+                                        </span>
+                                        <span class="pagination justify-content-center" *ngIf="i!=3 || i==rango.length-3">
+                                            <li *ngIf="pagina==i" class="page-item active"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                            <li *ngIf="pagina!=i" class="page-item"><a class="page-link" (click)="filtro(i)">{{i}}</a></li>
+                                        </span>
+                                        
+                                    </span>
+                                    
+                                </span>
+                                <li class="page-item" *ngIf="pagina!=rango.length">
+                                <a class="page-link" (click)="filtro(pagina+1)">Siguiente</a>
+                                </li>
+                            </ul>
+                            </nav>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ELIMINACION DE LIBRO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancelar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" *ngIf="libroBoton">
+                    Esta seguro de eliminar al libro con id: {{libroBoton.libroId}} ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button (click)="deleteLibro(libroBoton.libroId)" type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

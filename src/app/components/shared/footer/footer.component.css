@@ -2,10 +2,28 @@
 @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
 
+footer {
+    padding: 0.9375rem 0;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+}
+
+footer .copyright .material-icons {
+    font-size: 18px;
+    position: relative;
+    top: 3px;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+}
 
 .footer-titulo{
     font-family: "Encode Sans Semi Expanded", sans-serif;
     font-size: 12px;
+    color: #3C4858;
     letter-spacing: 2.4px;
     word-spacing: 2.4px;
     font-weight: 400;
@@ -17,6 +35,7 @@
 
 .footer-creditos{
     font-family: "Encode Sans Semi Expanded", sans-serif;
+    color: #9c27b0;
     font-size: 15px;
     letter-spacing: 2.4px;
     word-spacing: 2.4px;
